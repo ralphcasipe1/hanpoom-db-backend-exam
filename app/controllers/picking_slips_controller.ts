@@ -1,14 +1,26 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
+import vine from '@vinejs/vine'
 
 export default class PickingSlipsController {
   async index({ response, request }: HttpContext) {
+    const querystrings = request.qs()
+
+    const qsValidator = vine.compile(
+      vine.object({
+        page: vine.number().positive().withoutDecimals().optional(),
+        limit: vine.number().positive().withoutDecimals().optional(),
+        picking_slip_status: vine.enum(['printed', 'not printed', 'held']).optional(),
+        has_pre_order_item: vine.boolean().optional(),
+      })
+    )
+
     const {
       limit,
       page,
       picking_slip_status: pickingSlipStatus,
       has_pre_order_item: hasPreOrderItem,
-    } = request.qs()
+    } = await qsValidator.validate(querystrings)
 
     const pickingSlips = await db
       .from((subQuery) => {
@@ -41,7 +53,7 @@ export default class PickingSlipsController {
         pickingSlipStatus ? `aggregate.picking_slip_status = '${pickingSlipStatus}'` : 'TRUE'
       )
       .whereRaw(hasPreOrderItem ? `aggregate.has_pre_order_item = '${hasPreOrderItem}'` : 'TRUE')
-      .paginate(page ?? 1, limit)
+      .paginate(page ?? 1, limit ?? 20)
 
     return response.ok(pickingSlips)
   }
