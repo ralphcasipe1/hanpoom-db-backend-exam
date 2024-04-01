@@ -10,6 +10,7 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - db:/var/lib/postgresql/data
+      - "${CSV_PATH}:/csv"
 
 volumes:
   db:
