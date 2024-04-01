@@ -42,7 +42,7 @@ node ace migration:fresh --seed
 ```sh
 npm run dev
 ```
-> Then go localhost:3333
+> Then go localhost:3333/api
 
 ## API Endpoint
 ### `GET /picking-slips`
@@ -92,5 +92,16 @@ npm run dev
   ]
 }
 ```
+
+### Example
+```sh
+curl -H Content-Type: application/json "http://localhost:3333/api/picking-slips?page=1&limit=10&picking_slip_status=printed" | jq '.'
+```
+
+> **NOTE**
+> 
+> If `jq` is not available you can install it via homebrew.
+>
+> `brew install jq`
 
 
