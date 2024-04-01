@@ -33,9 +33,23 @@ export default class PickingSlipsController {
               CASE
                 WHEN psd.held_at IS NOT NULL THEN 'held'
 
-                WHEN psd.printed_at IS NOT NULL THEN 'printed'
+                -- Maybe we can do this:
+                -- "WHEN printed_at IS NOT NULL THEN 'printed'"
+                -- But I don't the context of this so I will just follow the condition
+                -- based from the docs.
+                WHEN psd.printed_at IS NOT NULL
+                  AND psd.inspected_at IS NULL
+                  AND psd.shipped_at IS NULL
+                  AND psd.held_at IS NULL
+                    THEN 'printed'
 
-                ELSE 'not printed'
+                WHEN psd.printed_at IS NULL
+                  AND psd.inspected_at IS NULL
+                    AND psd.shipped_at IS NULL
+                    AND psd.held_at IS NULL
+                      THEN 'not printed'
+
+                ELSE '-'
               END as picking_slip_status
             `),
             db.raw(/* sql */ `
@@ -44,7 +58,14 @@ export default class PickingSlipsController {
           )
           .leftJoin('picking_slip_dates as psd', 'ps.id', 'psd.picking_slip_id')
           .leftJoin('picking_slip_items as psi', 'ps.id', 'psi.picking_slip_id')
-          .groupBy('ps.id', 'psi.is_pre_order', 'psd.held_at', 'psd.printed_at')
+          .groupBy(
+            'ps.id',
+            'psi.is_pre_order',
+            'psd.held_at',
+            'psd.printed_at',
+            'psd.inspected_at',
+            'psd.shipped_at'
+          )
           .orderBy('ps.created_at', 'desc')
           .as('aggregate')
       })
