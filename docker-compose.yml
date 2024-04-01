@@ -7,7 +7,7 @@ services:
       - '5432:5432'
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db:/var/lib/postgresql/data
       - "${CSV_PATH}:/csv"
