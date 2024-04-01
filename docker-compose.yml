@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  hanpoom-db:
+    image: postgres:13.2
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
