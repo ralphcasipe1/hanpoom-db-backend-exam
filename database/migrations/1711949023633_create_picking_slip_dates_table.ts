@@ -7,9 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
 
-      table
-        .bigInteger('picking_slip_id')
-        .unsigned()
+      table.bigInteger('picking_slip_id').unsigned().unique()
       table.string('printed_username', 20)
       table.string('inspected_username', 20)
       table.string('packed_username', 20)
@@ -27,8 +25,8 @@ export default class extends BaseSchema {
       table.timestamp('cancelled_at', { useTz: false }).defaultTo(null)
       table.timestamp('refunded_at', { useTz: false }).defaultTo(null)
       table.timestamp('held_at', { useTz: false }).defaultTo(null)
-      table.string('held_reason', 20)
       table.timestamp('confirmed_at', { useTz: false }).defaultTo(null)
+      table.string('held_reason', 20)
     })
   }
 
