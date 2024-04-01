@@ -8,8 +8,8 @@ export default class PickingSlipsController {
 
     const qsValidator = vine.compile(
       vine.object({
-        page: vine.number().positive().withoutDecimals().optional(),
-        limit: vine.number().positive().withoutDecimals().optional(),
+        page: vine.number().positive().min(1).withoutDecimals().optional(),
+        limit: vine.number().positive().min(1).withoutDecimals().optional(),
         picking_slip_status: vine.enum(['printed', 'not printed', 'held']).optional(),
         has_pre_order_item: vine.boolean().optional(),
       })
