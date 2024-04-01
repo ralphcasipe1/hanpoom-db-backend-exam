@@ -48,12 +48,12 @@ npm run dev
 ### `GET /picking-slips`
 
 #### Query Strings
-| query strings       | type                            |
-| ------------------- | ------------------------------- |
-| page                | number                          |
-| limit               | number                          |
-| picking_slip_status | enum: printed,not printed, held |
-| has_pre_order_item  | boolean                         |
+| query strings       | type                            | default |
+| ------------------- | ------------------------------- | ------- |
+| page                | number                          | 1       |
+| limit               | number                          | 20      |
+| picking_slip_status | enum: printed,not printed, held | -       |
+| has_pre_order_item  | boolean                         | -       |
 
 ### Response
 ```json
