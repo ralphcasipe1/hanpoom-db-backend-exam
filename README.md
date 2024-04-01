@@ -106,3 +106,14 @@ curl -H Content-Type: application/json "http://localhost:3333/api/picking-slips?
 > `brew install jq`
 
 
+### Testing
+This would refresh the database and seed before running the test.
+```sh
+npm run test
+```
+
+Running test without refreshing the database.
+```sh
+node ace test
+```
+
