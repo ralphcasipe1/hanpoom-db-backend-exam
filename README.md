@@ -1,8 +1,9 @@
 # Getting Started
 
 ## Prerequisites
-1. Should `docker-compose` installed
-2. Add the following mandatory environment variables
+1. Node version `v20.10.0`
+2. Should `docker-compose` installed
+3. Add the following mandatory environment variables
    1. `DB_PASSWORD`
    2. `CSV_PATH` - See the example in `.env.example` (optional)
       1. Add the value of `CSV_PATH` to the settings in docker. (optional)
